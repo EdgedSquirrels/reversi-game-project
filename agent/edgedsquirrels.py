@@ -23,9 +23,6 @@ class MyAgent(BaseAgent):
         (2,0),(3,0),(4,0),(5,0),
         (2,7),(3,7),(4,7),(5,7)
     }
-    #steps=[[] for i in range(developdepth+1)]
-    #[[myboard1-1,myboard1-2...](step1), [myboard2-1,myboard2-2,...](step2),...]
-
                 
 
     def negamax(self,board,a=-1000,b=1000,depth=0,Factor=0): #a:worst case  b:best case
@@ -38,10 +35,7 @@ class MyAgent(BaseAgent):
             board.get_value()
             board.value+=Factor
             return board.value
-        #if board.value!=-1000: return board.value
-        
-        #childNodes := generateMoves(node)
-        #childNodes := orderMoves(childNodes)
+
         board.value =-1000
         for child in board.children:
             self.developnum+=1
@@ -63,11 +57,6 @@ class MyAgent(BaseAgent):
             a = max(a, board.value)
             if a >= b :
                 break #(* cut-off *)
-        #   anarbitrary factor
-        '''
-        border's factor +=5
-        border's border factor-=3
-        '''
         return board.value
 
 
@@ -80,28 +69,17 @@ class MyAgent(BaseAgent):
         self.obs=obs
         self.steps=[[] for i in range(self.developdepth+1)]
         self.developnum=0
-        #insert nowboard
-        #print('create nowboard')
         nowboard=MyBoard(self.obs,self.stepnow,self.mycolor)
 
         x=-1;y=-1
-        #print('developing & alpha-beta pruning & negamax algorithm...')
-        #print(self.steps)
         bestv=self.negamax(board=nowboard,a=-1000,b=1000,depth=0)
         for i in range(len(nowboard.children)):
-            #print(nowboard.children[i][0],nowboard.children[i][1],nowboard.children[i][2].value)
+
             if nowboard.children[i][2].value==-bestv:
                 x=nowboard.children[i][0]
                 y=nowboard.children[i][1]
                 break
-        #print(x,y,bestv,end='\n\n')
-        #print(f'We\'ve found {self.developnum} boards in this round')
-        #self.stepnow+=2
-        '''
-        if x==-1 and y==-1: 
-            print('Error',end='\n\n\n')
-            return self.step2(reward,obs)
-        '''
+
         return (self.col_offset + x * self.block_len, self.row_offset + y * self.block_len),pygame.USEREVENT
 
     
