@@ -7,8 +7,8 @@ class MyBoard:
     def __init__(self,obs,step,mycolor,myturn=1,lastboard=0):
         self.obs=obs.copy()
         self.value=0
-        self.step=step
-        self.mycolor=step
+        self.rev= True if step<0 else False
+        self.mycolor=mycolor
         self.avail_act=-1
         self.lastboard=lastboard
         #self.canput=[[[0,0] for i in range(8)] for i in range(8)]
@@ -25,7 +25,7 @@ class MyBoard:
                 p=self.is_available(i,j,mycolor,myturn)
                 if p!=-1: ans.append(p)
 
-        ans.sort(key=lambda i: i[3],reverse=True)
+        ans.sort(key=lambda i: i[3],reverse=self.rev)
         self.avail_act=ans
         return ans
         #if exist return file
