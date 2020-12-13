@@ -1,38 +1,34 @@
 import random
 import pygame
 import sys
+import time
 #from base_agent import BaseAgent
 
-def findindex(id,lst):
-    for i in range(len(lst)):
-        if lst[i].id==id: return i
-    return None
-
 class MyBoard:
-    def __init__(self,obs,step,mycolor,myturn=1,parents=[]):#lastboard points to the previous MyBoard
+    def __init__(self,obs,step,mycolor,myturn=1):#lastboard points to the previous MyBoard   parents=[]
         self.obs=obs.copy()
         self.id=myturn
         self.step=step
         self.mycolor=mycolor
         self.myturn=myturn
         #self.avail_act=None
-        self.parents=parents
+        #self.parents=parents
         self.children=None   #[[x,y,MyBoard,flips],...]
         self.value=-1000    #self.num[mycolor*myturn]-self.num[-mycolor*myturn]
         self.num={-1:0,1:0,0:0} #the number of pieces of chess  -1:black 1:white 0: space
+        
+        
+        
+        
+        
         for i in range(64):
             self.id*=2
-            self.id+=obs[i]
-            self.num[obs[i]]+=1
-
-    def __del__(self):
-        return
-        if self.children == None: return
-        for k in self.children:
-            kk=findindex(self.id,k.parents)
-            if kk!=None:
-                k.parents.pop(kk)
-
+            if self.obs[i]==2:
+                
+                self.obs[i]=0
+            self.id+=self.obs[i]
+            self.num[self.obs[i]]+=1
+    
     def get_value(self):
         mycolor=self.mycolor
         myturn=self.myturn
@@ -47,10 +43,8 @@ class MyBoard:
                 p=self.is_available(i,j)
                 if p!=-1: ans.append(p)
         if ans==[]:
-            ans=[[-1,-1,MyBoard(obs=self.obs,step=self.step+1,mycolor=self.mycolor,myturn=-self.myturn,parents=[self]),[]]]
-        k=len(ans)-1
-        for _ in range(5): #shuffle
-            ans.append(ans.pop(random.randint(0, k)))
+            ans=[[-1,-1,MyBoard(obs=self.obs,step=self.step+1,mycolor=self.mycolor,myturn=-self.myturn),[]]]
+        
         self.children=ans
         return ans
 
@@ -79,6 +73,6 @@ class MyBoard:
                             break
                         bx,by,buf=bx+i,by+j,buf+1
         if points==myturn*mycolor: return -1
-        newboard=MyBoard(obs=obsnew,step=self.step+1,mycolor=self.mycolor,myturn=-self.myturn,parents=[self])
+        newboard=MyBoard(obs=obsnew,step=self.step+1,mycolor=self.mycolor,myturn=-self.myturn)
         return [x,y,newboard,flips]
         #return [x,y,nextMyboard,flips]
