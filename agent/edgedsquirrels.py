@@ -3,7 +3,7 @@ import pygame
 import sys
 
 from agent.base_agent import BaseAgent
-from agent.edgedsquirrels_func.func3 import *
+from agent.edgedsquirrels_func.func import *
 
 #python3 arena.py --agent1 edgedsquirrels.MyAgent --agent2 base_agent.RandomAgent
 class MyAgent(BaseAgent):
