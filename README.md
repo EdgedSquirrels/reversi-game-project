@@ -23,7 +23,7 @@
     
    In terms of the points, we used the negamax algorithm to help us determine which moves award the most points. 
 
-
+Credit: https://github.com/linchengweiii/reversi-pygame
 
 
 
